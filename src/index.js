@@ -1,4 +1,4 @@
-const fs = require('fs');
+//const fs = require('fs');
 //importação
 const qrcode = require('qrcode-terminal');
 const { Client } = require('whatsapp-web.js');
@@ -11,7 +11,9 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
   sessionData = require(SESSION_FILE_PATH);
 }
 */
+//cria um novo cliente
 const client = new Client();
+//gerando QRcode para iniciar sessao
 client.on('qr', (qr) => {
   qrcode.generate(qr, { small: false });
 });
@@ -24,7 +26,10 @@ client.on('qr', (qr) => {
     }
   });
 });
+
+
 */
+
 client.on('ready', () => {
   console.log('Client is ready');
 });
@@ -34,10 +39,39 @@ client.on('message', (message) => {
 });
 
 client.on('message', (message) => {
-  if (message.body === 'ta bom') {
-    message.reply(
-      'eu te amo, com todas as minhas forças você é a coisa mais especial da minha vida, muito obg por ser você, infelizmente nao posso dar tudo que voce merece, mais te prometo dar tudo que tenho'
-    );
+  if (message.body === 'ola') {
+    message.reply('Escolha uma opção: \n 1 - Lista de produtos ');
+  }
+});
+
+client.on('message', (message) => {
+  if (message.body === '1') {
+    message.reply('Computador \n Celular');
+  }
+});
+let carrinho = '';
+let produto = 'mouse';
+client.on('message', (message) => {
+  if (message.body === 'carrinho') {
+    message.reply('Digite qual produto voce deseja adicionar ao carrinho:');
+  }
+  if (message.body === 'Computador') {
+    produto = message.body;
+    message.reply(`${produto} no valor de 1400, adicionado ao carrinho`);
+    carrinho = produto + carrinho;
+  } else if (message.body === 'Celular') {
+    produto = message.body;
+    message.reply(`${produto} no valor de 1400`);
+    carrinho = produto + carrinho;
+  }
+});
+
+client.on('message', (message) => {
+  if (message.body === 'ver carrinho') {
+    message.reply(`Seu carrinho \n ${carrinho}`);
+  }
+  if (message.body === 'sim') {
+    const carrinho = Produto + carrinho;
   }
 });
 
